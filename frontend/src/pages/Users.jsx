@@ -111,8 +111,6 @@ const Users = () => {
         return 'success'
       case 'inactive':
         return 'secondary'
-      case 'suspended':
-        return 'destructive'
       default:
         return 'secondary'
     }
@@ -227,7 +225,6 @@ const Users = () => {
                     <SelectItem value="all">All statuses</SelectItem>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="suspended">Suspended</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -351,7 +348,6 @@ const Users = () => {
                   <SelectContent>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="suspended">Suspended</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

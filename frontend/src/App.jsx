@@ -5,7 +5,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 // Pages
 import Login from './pages/Login'
-import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Records from './pages/Records'
 import Analytics from './pages/Analytics'
@@ -32,7 +31,8 @@ function App() {
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* Redirect /register to login – accounts are created by admin only */}
+          <Route path="/register" element={<Navigate to="/login" replace />} />
           
           {/* Redirect root to dashboard */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
