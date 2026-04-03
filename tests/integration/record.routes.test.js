@@ -95,16 +95,16 @@ describe('Record Routes – HTTP layer', () => {
       expect(res.body.data.category).toBe('Salary');
     });
 
-    it('should return 201 for analyst', async () => {
+    it('should return 403 for analyst', async () => {
       const token = setupUser('analyst');
-      recordService.createRecord.mockResolvedValue(mockRecord);
 
       const res = await request(app)
         .post('/api/records')
         .set('Authorization', `Bearer ${token}`)
         .send(validCreatePayload);
 
-      expect(res.statusCode).toBe(201);
+      expect(res.statusCode).toBe(403);
+      expect(recordService.createRecord).not.toHaveBeenCalled();
     });
 
     it('should return 403 for viewer', async () => {

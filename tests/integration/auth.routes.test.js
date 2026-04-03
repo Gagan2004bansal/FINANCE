@@ -30,45 +30,76 @@ describe('Auth Routes – HTTP layer', () => {
   describe('POST /api/auth/register', () => {
     const validPayload = { name: 'Alice', email: 'alice@example.com', password: 'pass123' };
 
-    it('should return 201 when service succeeds', async () => {
+    const setupAdmin = () => {
+      const token = makeToken({ id: 'adminId', role: 'admin' });
+      User.findById.mockResolvedValue({
+        _id: 'adminId',
+        name: 'Admin',
+        email: 'admin@example.com',
+        role: 'admin',
+        status: 'active',
+      });
+      return token;
+    };
+
+    it('should return 401 without an admin token', async () => {
+      const res = await request(app).post('/api/auth/register').send(validPayload);
+      expect(res.statusCode).toBe(401);
+    });
+
+    it('should return 201 when admin registers a user', async () => {
+      const token = setupAdmin();
       authService.register.mockResolvedValue({
         user: { id: '1', name: 'Alice', email: 'alice@example.com', role: 'viewer', status: 'active' },
         token: 'jwt.token.here',
       });
 
-      const res = await request(app).post('/api/auth/register').send(validPayload);
+      const res = await request(app)
+        .post('/api/auth/register')
+        .set('Authorization', `Bearer ${token}`)
+        .send(validPayload);
       expect(res.statusCode).toBe(201);
       expect(res.body.success).toBe(true);
       expect(res.body.data.token).toBe('jwt.token.here');
     });
 
     it('should return 409 when email is already registered', async () => {
+      const token = setupAdmin();
       const err = new Error('Email is already registered');
       err.statusCode = 409;
       authService.register.mockRejectedValue(err);
 
-      const res = await request(app).post('/api/auth/register').send(validPayload);
+      const res = await request(app)
+        .post('/api/auth/register')
+        .set('Authorization', `Bearer ${token}`)
+        .send(validPayload);
       expect(res.statusCode).toBe(409);
       expect(res.body.success).toBe(false);
     });
 
     it('should return 422 for missing name', async () => {
+      const token = setupAdmin();
       const res = await request(app)
         .post('/api/auth/register')
+        .set('Authorization', `Bearer ${token}`)
         .send({ email: 'a@a.com', password: 'pass123' });
       expect(res.statusCode).toBe(422);
     });
 
     it('should return 422 for invalid email', async () => {
+      const token = setupAdmin();
       const res = await request(app)
         .post('/api/auth/register')
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: 'X', email: 'not-an-email', password: 'pass123' });
       expect(res.statusCode).toBe(422);
     });
 
     it('should return 422 for short password', async () => {
+      const token = setupAdmin();
       const res = await request(app)
         .post('/api/auth/register')
+        .set('Authorization', `Bearer ${token}`)
         .send({ name: 'X', email: 'x@x.com', password: '123' });
       expect(res.statusCode).toBe(422);
     });
