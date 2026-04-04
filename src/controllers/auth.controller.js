@@ -45,6 +45,7 @@ const getMe = async (req, res, next) => {
       email: req.user.email,
       role: req.user.role,
       status: req.user.status,
+      createdAt: req.user.createdAt,
     });
   } catch (error) {
     next(error);

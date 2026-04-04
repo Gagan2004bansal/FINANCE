@@ -122,7 +122,7 @@ const Analytics = () => {
                 <BarChart data={monthlyTrends} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                  <YAxis tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`} />
                   <Tooltip formatter={(value) => formatCurrency(value)} />
                   <Bar dataKey="income" fill="#16a34a" name="Income" />
                   <Bar dataKey="expenses" fill="#dc2626" name="Expenses" />
@@ -147,7 +147,7 @@ const Analytics = () => {
                   <AreaChart data={weeklyTrends}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="week" />
-                    <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                    <YAxis tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`} />
                     <Tooltip formatter={(value) => formatCurrency(value)} />
                     <Area
                       type="monotone"
@@ -266,7 +266,7 @@ const Analytics = () => {
                 }))}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                  <YAxis tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`} />
                   <Tooltip formatter={(value) => formatCurrency(value)} />
                   <Line 
                     type="monotone" 

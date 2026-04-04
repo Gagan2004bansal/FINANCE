@@ -60,9 +60,15 @@ export function AuthProvider({ children }) {
       
       return { success: true }
     } catch (error) {
+      const data = error.response?.data
+      const firstError = data?.errors?.[0]
+      const message =
+        firstError
+          ? typeof firstError === 'string' ? firstError : firstError.message || data.message
+          : data?.message || 'Login failed'
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed',
+        message,
       }
     }
   }
