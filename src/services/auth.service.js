@@ -72,6 +72,7 @@ const login = async ({ email, password }) => {
       email: user.email,
       role: user.role,
       status: user.status,
+      createdAt: user.createdAt,
     },
     token,
   };

@@ -204,7 +204,7 @@ const Dashboard = () => {
                     <LineChart data={monthlyTrends}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                      <YAxis tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`} />
                       <Tooltip formatter={(value) => formatCurrency(value)} />
                       <Line type="monotone" dataKey="income" stroke="#16a34a" strokeWidth={2} />
                       <Line type="monotone" dataKey="expenses" stroke="#dc2626" strokeWidth={2} />

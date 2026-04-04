@@ -60,9 +60,14 @@ export function AuthProvider({ children }) {
       
       return { success: true }
     } catch (error) {
+      const data = error.response?.data
+      const message =
+        data?.errors?.length
+          ? data.errors[0]
+          : data?.message || 'Login failed'
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed',
+        message,
       }
     }
   }
