@@ -22,7 +22,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000',
+        url: 'http://localhost:3001',
         description: 'Local development server',
       },
     ],
@@ -41,9 +41,9 @@ const options = {
           type: 'object',
           required: ['name', 'email', 'password'],
           properties: {
-            name: { type: 'string', example: 'Alice Admin' },
-            email: { type: 'string', format: 'email', example: 'alice@example.com' },
-            password: { type: 'string', minLength: 6, example: 'secret123' },
+            name: { type: 'string', example: 'Admin' },
+            email: { type: 'string', format: 'email', example: 'admin@mail.com' },
+            password: { type: 'string', minLength: 6, example: 'Admin@123' },
             role: {
               type: 'string',
               enum: ['viewer', 'analyst', 'admin'],
