@@ -12,8 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
 import { Skeleton } from '../components/ui/skeleton'
+import { useToast } from '../components/ui/use-toast'
 
 const Users = () => {
+  const { toast } = useToast()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({
@@ -73,22 +75,27 @@ const Users = () => {
 
   const handleUpdateUser = async () => {
     try {
-      const { id, name, role, status } = editingUser
-      await api.patch(`/api/users/${id}`, { name, role, status })
+      const { _id, id, name, role, status } = editingUser
+      await api.patch(`/api/users/${_id || id}`, { name, role, status })
       setEditingUser(null)
       fetchUsers()
+      toast({ title: 'User updated', description: `${name} has been updated successfully.`, variant: 'success' })
     } catch (error) {
       console.error('Error updating user:', error)
+      toast({ title: 'Update failed', description: error.response?.data?.message || 'Failed to update user.', variant: 'destructive' })
     }
   }
 
   const handleDeleteUser = async () => {
     try {
-      await api.delete(`/api/users/${deleteUser.id}`)
+      const { _id, id, name } = deleteUser
+      await api.delete(`/api/users/${_id || id}`)
       setDeleteUser(null)
       fetchUsers()
+      toast({ title: 'User deleted', description: `${name} has been deleted.`, variant: 'success' })
     } catch (error) {
       console.error('Error deleting user:', error)
+      toast({ title: 'Delete failed', description: error.response?.data?.message || 'Failed to delete user.', variant: 'destructive' })
     }
   }
 
